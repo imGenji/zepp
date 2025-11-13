@@ -5,6 +5,7 @@ import traceback
 import urllib
 import uuid
 from datetime import datetime
+from typing import Optional, Tuple
 
 import pytz
 import requests
@@ -13,7 +14,7 @@ from util.aes_help import encrypt_data, HM_AES_KEY, HM_AES_IV
 
 
 # 通过账号密码获取access_token和refresh_token 但是refresh_token不知道怎么使用
-def login_access_token(user, password) -> (str | None, str | None):
+def login_access_token(user, password) -> Tuple[Optional[str], Optional[str]]:
     headers = {
         "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
         "user-agent": "MiFit6.14.0 (M2007J1SC; Android 12; Density/2.75)",
@@ -88,7 +89,7 @@ def get_time():
 
 
 # 获取login_token，app_token，userid
-def grant_login_tokens(access_token, device_id, is_phone=False) -> (str | None, str | None, str | None, str | None):
+def grant_login_tokens(access_token, device_id, is_phone=False) -> Tuple[Optional[str], Optional[str], Optional[str], Optional[str]]:
     url = "https://account.huami.com/v2/client/login"
     headers = {
         "app_name": "com.xiaomi.hm.health",
@@ -143,7 +144,7 @@ def grant_login_tokens(access_token, device_id, is_phone=False) -> (str | None, 
 
 
 # 获取app_token 用于提交数据变更
-def grant_app_token(login_token: str) -> (str | None, str | None):
+def grant_app_token(login_token: str) -> Tuple[Optional[str], Optional[str]]:
     url = f"https://account-cn.huami.com/v1/client/app_tokens?app_name=com.xiaomi.hm.health&dn=api-user.huami.com%2Capi-mifit.huami.com%2Capp-analytics.huami.com&login_token={login_token}"
     headers = {'User-Agent': 'MiFit/5.3.0 (iPhone; iOS 14.7.1; Scale/3.00)'}
     resp = requests.get(url, headers=headers)
@@ -161,7 +162,7 @@ def grant_app_token(login_token: str) -> (str | None, str | None):
 
 
 # 获取用户信息 主要用于检查app_token是否有效
-def check_app_token(app_token) -> (bool, str | None):
+def check_app_token(app_token) -> Tuple[bool, Optional[str]]:
     url = "https://api-mifit-cn3.zepp.com/huami.health.getUserInfo.json"
 
     params = {
@@ -206,7 +207,7 @@ def check_app_token(app_token) -> (bool, str | None):
         return False, message
 
 
-def renew_login_token(login_token) -> (str | None, str | None):
+def renew_login_token(login_token) -> Tuple[Optional[str], Optional[str]]:
     url = "https://account-cn3.zepp.com/v1/client/renew_login_token"
     params = {
         "os_version": "v0.8.1",

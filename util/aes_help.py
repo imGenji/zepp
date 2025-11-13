@@ -1,5 +1,6 @@
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
+from typing import Optional
 
 # 华米传输加密使用的密钥 固定iv
 # 参考自 https://github.com/hanximeng/Zepp_API/blob/main/index.php
@@ -32,7 +33,7 @@ def _validate_key(key: bytes):
         raise ValueError("key must be 16 bytes for AES-128")
 
 
-def encrypt_data(plain: bytes, key: bytes, iv: bytes | None = None) -> bytes:
+def encrypt_data(plain: bytes, key: bytes, iv: Optional[bytes] = None) -> bytes:
     """
     返回：IV（16B） + ciphertext（bytes） 或者仅ciphertext（当使用固定IV时）
     参数：
@@ -61,7 +62,7 @@ def encrypt_data(plain: bytes, key: bytes, iv: bytes | None = None) -> bytes:
         return ciphertext
 
 
-def decrypt_data(data: bytes, key: bytes, iv: bytes | None = None) -> bytes:
+def decrypt_data(data: bytes, key: bytes, iv: Optional[bytes] = None) -> bytes:
     """
     输入：IV（16B） + ciphertext 或者仅ciphertext（当使用固定IV时）
     返回：明文字节（未解码为字符串）

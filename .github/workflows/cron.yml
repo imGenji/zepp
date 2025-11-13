@@ -1,10 +1,11 @@
 name: Random Cron
+# 已禁用定时任务相关功能
 on:
-  workflow_run:
-    workflows: ["刷步数"]
-    types:
-      - completed
-  workflow_dispatch:
+  workflow_dispatch:  # 仅保留手动触发，用于测试
+  # workflow_run:
+  #   workflows: ["刷步数"]
+  #   types:
+  #     - completed
 
 jobs:
   repo-sync:
