@@ -493,8 +493,16 @@ if __name__ == "__main__":
         step_value = None
     
     if step_value is None:
-        min_step, max_step = get_min_max_by_time()
-        print(f"使用随机步数范围：{min_step} ~ {max_step}")
+        # 判断是否从环境变量读取（GitHub Actions模式）
+        if os.environ.__contains__("CONFIG"):
+            # GitHub Actions模式：直接使用配置的MIN_STEP和MAX_STEP，不根据时间计算
+            min_step = get_int_value_default(config, 'MIN_STEP', 18000)
+            max_step = get_int_value_default(config, 'MAX_STEP', 25000)
+            print(f"GitHub Actions模式：使用配置的随机步数范围：{min_step} ~ {max_step}")
+        else:
+            # 本地模式：根据时间计算步数范围
+            min_step, max_step = get_min_max_by_time()
+            print(f"本地模式：使用时间计算的随机步数范围：{min_step} ~ {max_step}")
     else:
         min_step = None
         max_step = None
