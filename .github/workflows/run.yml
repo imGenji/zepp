@@ -1,11 +1,11 @@
-name: 刷步数
+name: logn
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master
-      - main
+  # push:
+  #   branches:
+  #     - master
+  #     - main
 
 jobs:
   build:
