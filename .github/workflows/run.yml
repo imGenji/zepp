@@ -2,6 +2,8 @@ name: logn
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 12 * * *'
   # push:
   #   branches:
   #     - master
@@ -49,3 +51,22 @@ jobs:
               git push origin master || true
             fi
           fi
+
+      - name: Send email notification on success
+        if: success()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.qq.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: GitHub Actions 执行成功 - mimotion
+          to: 1129322026@qq.com
+          from: GitHub Actions <${{ secrets.MAIL_USERNAME }}>
+          body: |
+            你好！
+            
+            你的 mimotion 项目在 GitHub Actions 上的定时任务已成功执行完成。
+            
+            查看运行日志: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
