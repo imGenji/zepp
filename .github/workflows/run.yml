@@ -3,7 +3,7 @@ name: logn
 on:
   workflow_dispatch:
   schedule:
-    - cron: '42 11 * * 1-5'
+    - cron: '30 09 * * 1-5'
   # push:
   #   branches:
   #     - master
