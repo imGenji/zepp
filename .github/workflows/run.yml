@@ -2,8 +2,9 @@ name: logn
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '30 11 * * 0,2,4,5,6' # UTC 11:30 = 北京时间 19:30，跳过周一、周三
+  # schedule 改由 cron-job.org 外部定时触发，避免 GitHub schedule 排队延迟
+  # schedule:
+  #   - cron: '30 11 * * 0,2,4,5,6' # UTC 11:30 = 北京时间 19:30，跳过周一、周三
   # push:
   #   branches:
   #     - master
